@@ -2,8 +2,35 @@
 <html lang="en">
     <head>
         <title>JsonReport Options</title>
+        <script type="text/javascript">
+            setSelect = function(node){
+                localStorage.setItem("popupAction", node.id);
+            }
+        </script>
     </head>
     <body>
-
+        <section>
+            <header>
+                <h1>Set default button action</h1>
+            </header>
+            <ul>
+                <li>
+                    <input type="radio" name="options" id="blank" onclick="setSelect(this)" />
+                    <label for="blank">Blank report</label>
+                </li>
+                <li>
+                    <input type="radio" name="options" id="url" onclick="setSelect(this)" />
+                    <label for="url">Report on current URL</label>
+                </li>
+                <li>
+                    <input type="radio" name="options" id="text" onclick="setSelect(this)" />
+                    <label for="text">Report on selected text</label>
+                </li>
+                <li>
+                    <input type="radio" name="options" id="popup" onclick="setSelect(this)" />
+                    <label for="popup">Show options</label>
+                </li>
+            </ul>
+        </section>
     </body>
 </html>
