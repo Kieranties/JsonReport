@@ -1,0 +1,30 @@
+﻿{
+	"name": "JsonReport",
+	"version": "0.1",
+	"description": "Reports direct from json models.  Awesome",
+	"icons": {
+		"16" : "lib/images/icon16.png",
+		"32" : "lib/images/icon32.png",
+		"48" : "lib/images/icon48.png",		
+		"128" : "lib/images/icon128.png"
+	},
+	"options_page": "pages/main.html",
+    "browser_action": {
+		"default_icon": "lib/images/icon16.png",
+		"default_title": "Report view"
+	},
+    "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+	  "css": ["lib/css/jsonreport.css"],
+      "js": ["lib/js/jsonreport.js"]
+    }
+  ],
+	"background_page": "pages/background.html",
+    "permissions":[
+        "tabs",
+		"contextMenus",
+        "http://*/*",
+        "https://*/*"
+    ]
+}

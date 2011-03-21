@@ -1,0 +1,38 @@
+﻿<script type="text/javascript">
+	var sourceUrl;
+	var sourceText;
+	//listener for url request from report page
+	chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
+		if(request.type === "details"){
+			if(sourceUrl != undefined && sourceUrl != ''){
+				sendResponse({type: 'url', url: sourceUrl});
+			}else if(sourceText != undefined && sourceText != ''){
+				sendResponse({type: 'text', text: sourceText});
+			}else{
+				sendResponse({});
+			}
+		};
+	});
+	//listen for the report view click
+	chrome.browserAction.onClicked.addListener(function(tab) {
+		//store the url of the current tab
+		source = tab.url;
+		createTab();
+	});
+	
+	/*** Context Menu ***/
+	chrome.contextMenus.create({
+		title: "JsonReport",
+		contexts: ["link", "selection"],
+		onclick: function(info, tab){
+			sourceUrl = info.linkUrl;
+			sourceText = info.selectionText;
+			createTab();
+		}
+	});
+	
+	createTab = function(){
+		//open a new report page
+		chrome.tabs.create({'url': chrome.extension.getURL('pages/main.html')});    
+	}
+</script>
