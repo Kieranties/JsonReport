@@ -14,6 +14,7 @@ A Google Chrome application to output JSON data as a table.
 - Customisable CSS
 - Default function button action
 - Auto report on .json urls
+- Report history
 
 ##References
 + [jsonreport.js] is the excellent work of [AjaxStack]
