@@ -14,8 +14,7 @@
             /*** Init ***/
             chrome.extension.sendRequest({"type": "propGet"}, function(response){
                 for(prop in response){
-                    var found = document.getElementById(prop)
-                            || document.getElementsByName(prop);
+                    var found = document.getElementById(prop) || document.getElementsByName(prop);
                     if(found !== undefined){
                         if(found instanceof NodeList){
                             var val = response[prop];

@@ -1,29 +1,30 @@
 <!doctype html>
 <html lang="en">
     <head>
+		<link rel="stylesheet" type="text/css" href="/lib/css/popup.css"/>
         <script type="text/javascript">
             sendRequest = function(payload){
                 chrome.extension.sendRequest({
                     "type": "popupLink",
                     "payload": payload
-                })
-            }
+                });
+            };
             urlRequest = function(){
                 chrome.tabs.getSelected(null, function(tab){
                     sendRequest(tab.url);
-                })
-            }
+                });
+            };
         </script>
     </head>
     <body>
           <section>
             <ul>
+				<li>
+                    <a href="#" id="url" onclick="urlRequest()">Report this</a>
+                </li>
                 <li>
                     <a href="#" id="blank" onclick="sendRequest()">Blank report</a>
-                </li>
-                <li>
-                    <a href="#" id="url" onclick="urlRequest()">Report on current URL</a>
-                </li>
+                </li>                
                 <li>
                     <a href="#" id="options" onclick="sendRequest('options')">Options</a>
                 </li>

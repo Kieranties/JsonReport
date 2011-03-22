@@ -1,0 +1,7 @@
+body{width: 150px; margin: 0;}
+ul{margin: 5px; padding: 0;}
+li{ list-style: none;}
+li:nth-child(2){border-bottom: 1px dashed grey;}
+li:last-child{text-align: right;}
+a{text-decoration: none; color: grey;}
+a:hover{color: black;}
