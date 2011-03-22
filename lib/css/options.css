@@ -1,0 +1,10 @@
+html{background: darkgray; font: 10px Verdana, Arial;}
+body{background: lightgray; width: 40em; margin-left: 30%; margin-top: 10%; border-radius: 1em; padding-bottom: 1em; padding-top: 1em; box-shadow: 1em 1em 0.5em gray;}
+header{border-top: 1px dashed darkGray; border-bottom: 0.1em dashed darkgray; text-align:center;}
+h1{margin: 0; padding-left: 3%; font-size: 2em;}
+h2{margin: 0; padding-left: 3%; font-size: 1.8em; font-style: italic; font-weight: normal; color: gray}
+li{list-style: none; font-size: 1.2em;}
+li > label{color: gray;}
+li > label:hover {color: black; cursor: pointer;}
+input[type="radio"]:checked+label,
+input[type="checkbox"]:checked+label{color: black; }

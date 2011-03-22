@@ -9,7 +9,7 @@
             /*** XHR request to get json from url ***/
 			requestReport = function(){
 				var req = new XMLHttpRequest();
-				req.open("GET", document.getElementById('urlReq').value, false);
+				req.open("GET", document.getElementById("urlReq").value, false);
 				req.send(null);
 				if(req.status == 200){
 					report(req.responseText);
@@ -18,23 +18,23 @@
 
             /*** Render JSON as a report ***/
 			report = function(content){
-                document.getElementsByClassName('jsonreport')[0].innerHTML = _.jsonreport( content );
+                document.getElementsByClassName("jsonreport")[0].innerHTML = _.jsonreport( content );
             };
 			
-			/*** Request last dataset ***/
+			/*** Init the report ***/
 			chrome.extension.sendRequest({"type": "reportInit"}, function(response){
 				switch(response.format){
 					case "url":
 						if(response.payload !== undefined){
-							document.getElementById('urlReq').value = response.payload;
+							document.getElementById("urlReq").value = response.payload;
 							requestReport();
 						}
 						break;
 					case "text":
-						document.getElementById('textReq').innerHTML = response.payload;
-						report(document.getElementById('textReq').value);
+						document.getElementById("textReq").innerHTML = response.payload;
+						report(response.payload);
 						break;
-				} 
+				}
 			});            
         </script>
     </head>
@@ -43,7 +43,7 @@
             <strong>Usage:</strong> Paste JSON text in the TEXTAREA below and click <b>View JSON Report</b> button.
         </div>
 
-        <textarea id="textReq" class="json" placeholder="Enter raw JSON here">{"Customer":{"Id":"BOLID","CompanyName":"Bolido Comidas preparadas","ContactName":"Martin Sommer","ContactTitle":"Owner","Address":"C/ Araquil, 67","City":"Madrid","PostalCode":"28023","Country":"Spain","Phone":"(91) 555 22 82","Fax":"(91) 555 91 99"},"CustomerOrders":[{"Order":{"Id":10326,"CustomerId":"BOLID","EmployeeId":4,"OrderDate":"\/Date(844898400000+0000)\/","RequiredDate":"\/Date(847321200000+0000)\/","ShippedDate":"\/Date(845244000000+0000)\/","ShipVia":2,"Freight":77.92,"ShipName":"Bolido Comidas preparadas","ShipAddress":"C/ Araquil, 67","ShipCity":"Madrid","ShipPostalCode":"28023","ShipCountry":"Spain"},"OrderDetails":[{"OrderId":10326,"ProductId":4,"UnitPrice":17.6,"Quantity":24,"Discount":0},{"OrderId":10326,"ProductId":57,"UnitPrice":15.6,"Quantity":16,"Discount":0},{"OrderId":10326,"ProductId":75,"UnitPrice":6.2,"Quantity":50,"Discount":0}]},{"Order":{"Id":10801,"CustomerId":"BOLID","EmployeeId":4,"OrderDate":"\/Date(883350000000+0000)\/","RequiredDate":"\/Date(885769200000+0000)\/","ShippedDate":"\/Date(883522800000+0000)\/","ShipVia":2,"Freight":97.09,"ShipName":"B?lido Comidas preparadas","ShipAddress":"C/ Araquil, 67","ShipCity":"Madrid","ShipPostalCode":"28023","ShipCountry":"Spain"},"OrderDetails":[{"OrderId":10801,"ProductId":17,"UnitPrice":39,"Quantity":40,"Discount":0.25},{"OrderId":10801,"ProductId":29,"UnitPrice":123.79,"Quantity":20,"Discount":0.25}]},{"Order":{"Id":10970,"CustomerId":"BOLID","EmployeeId":9,"OrderDate":"\/Date(890694000000+0000)\/","RequiredDate":"\/Date(891900000000+0000)\/","ShippedDate":"\/Date(893368800000+0000)\/","ShipVia":1,"Freight":16.16,"ShipName":"B?lido Comidas preparadas","ShipAddress":"C/ Araquil, 67","ShipCity":"Madrid","ShipPostalCode":"28023","ShipCountry":"Spain"},"OrderDetails":[{"OrderId":10970,"ProductId":52,"UnitPrice":7,"Quantity":40,"Discount":0.2}]}]}</textarea>
+        <textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
 		<br/>
         <input id="urlReq" type="text" style="width:50%" placeholder="Enter a url which returns json"/>
         <div>
