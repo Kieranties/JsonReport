@@ -1,31 +1,31 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>JsonReport</title>
-        <link rel="stylesheet" type="text/css" href="/lib/css/main.css"/>
+	<head>
+		<title>JsonReport</title>
+		<link rel="stylesheet" type="text/css" href="/lib/css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="/lib/css/jsonreport.css"/>
-        <script type="text/javascript" src="/lib/js/jsonreport.js"></script>
-        <script type="text/javascript">           
-            /*** XHR request to get json from url ***/
-			requestReport = function(){
+		<script type="text/javascript" src="/lib/js/jsonreport.js"></script>
+		<script type="text/javascript">
+			/*** XHR request to get json from url ***/
+			requestReport = function() {
 				var req = new XMLHttpRequest();
 				req.open("GET", document.getElementById("urlReq").value, false);
 				req.send(null);
-				if(req.status == 200){
+				if(req.status == 200) {
 					report(req.responseText);
 				}
 			};
 
-            /*** Render JSON as a report ***/
-			report = function(content){
-                document.getElementsByClassName("jsonreport")[0].innerHTML = _.jsonreport( content );
-            };
-			
+			/*** Render JSON as a report ***/
+			report = function(content) {
+				document.getElementsByClassName("jsonreport")[0].innerHTML = _.jsonreport(content);
+			};
+
 			/*** Init the report ***/
-			chrome.extension.sendRequest({"type": "reportInit"}, function(response){
-				switch(response.format){
+			chrome.extension.sendRequest({"type": "reportInit"}, function(response) {
+				switch(response.format) {
 					case "url":
-						if(response.payload !== undefined){
+						if(response.payload !== undefined) {
 							document.getElementById("urlReq").value = response.payload;
 							requestReport();
 						}
@@ -35,20 +35,21 @@
 						report(response.payload);
 						break;
 				}
-			});            
-        </script>
-    </head>
-    <body>
-        <div id="usage">
-            <strong>Usage:</strong> Paste JSON text in the TEXTAREA below and click <b>View JSON Report</b> button.
-        </div>
+			});
+		</script>
+	</head>
+	<body>
+		<div id="usage">
+			<strong>Usage:</strong> Paste JSON text in the TEXTAREA below and click <b>View JSON Report</b> button.
+		</div>
 
-        <textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
+		<textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
 		<br/>
-        <input id="urlReq" type="text" style="width:50%" placeholder="Enter a url which returns json"/>
-        <div>
-            <button onclick="report(document.getElementById('textReq').value)">Static Report</button>
+		<input id="urlReq" type="text" style="width:50%" placeholder="Enter a url which returns json"/>
+
+		<div>
+			<button onclick="report(document.getElementById('textReq').value)">Static Report</button>
 			<button onclick="requestReport()">Url Report</button>
-        </div>
-    </body>
+		</div>
+	</body>
 </html>
