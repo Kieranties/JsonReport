@@ -3,53 +3,15 @@
 	var lastFormat = null;
 	var disabled = [];
 
-	/*** Tab listeners **/
-	chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
-		if(info.status === "complete") {
-			return;
-		}
-
-		//disable button if chrome page
-		var allowed = isValidUrl(tab.url);
-		var index = disabled.indexOf(tabId);
-		if(allowed) {
-			chrome.browserAction.setBadgeText({"text": "", "tabId": tabId});
-			if(index != -1) {
-				disabled.splice(index, 1);
-			}
-		} else {
-			chrome.browserAction.setBadgeText({"text": "x", "tabId": tabId});
-			if(index === -1) {
-				disabled.push(tabId);
-			}
-		}
-		setPopupAction(allowed);
-	});
-
-	chrome.tabs.onSelectionChanged.addListener(function(tabId, info) {
-		setPopupAction(disabled.indexOf(tabId) === -1);
-	});
 
 	/*** Request listener ***/
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		switch(request.type) {
-			case "propSet":
-				localStorage.setItem(request.prop, request.val);
-				if(request.prop === "popupAction") {
-					setPopupAction(request.val === "popup");
-				}
-				break;
-			case "propGet":
-				sendResponse(localStorage);
-				break;
 			case "popupLink":
 				createTab(request.payload, "url");
 				break;
 			case "reportInit":
 				sendResponse({"payload": lastPayload, "format": lastFormat});
-				break;
-			case "popupInit":
-				sendResponse(popupStatus);
 				break;
 			default: //snub
 				sendResponse({});
@@ -58,16 +20,14 @@
 
 	/*** BrowserAction listener ***/
 	chrome.browserAction.onClicked.addListener(function(tab) {
-		if(disabled.indexOf(tab.id) === -1) {
-			var mode = localStorage.getItem("popupAction");
-			switch(mode) {
-				case "blank":
-					createTab();
-					break;
-				case "url":
-					createTab(tab.url, "url");
-					break;
-			}
+		var mode = localStorage.getItem("popupAction");
+		switch(mode) {
+			case "blank":
+				createTab();
+				break;
+			case "url":
+				createTab(tab.url, "url");
+				break;
 		}
 	});
 
@@ -84,41 +44,12 @@
 		}
 	});
 
-	/*** Init ***/
-	if(!localStorage.getItem("init")) {
-		var defaults = {
-			"popupAction": "popup",
-			"storeHistory": true,
-			"autoJson": true
-		};
-		for(prop in defaults) {
-			localStorage.setItem(prop, defaults[prop]);
-		}
-		localStorage.setItem("init", true);
-	}
-
 	/*** Create a new tab ***/
 	createTab = function(payload, format) {
-		if(payload === "options") {
-			lastPayload = null;
-			lastFormat = null;
-			//open a new report page
-			chrome.tabs.create({"url": chrome.extension.getURL("pages/options.html")});
-		} else {
-			lastPayload = payload;
-			lastFormat = format;
-			//open a new report page
-			chrome.tabs.create({"url": chrome.extension.getURL("pages/main.html")});
-		}
-	};
-
-	/*** Set the popup action ***/
-	setPopupAction = function(allowed) {
-		if(allowed) {
-			chrome.browserAction.setPopup({"popup": "pages/popup.html"});
-		} else {
-			chrome.browserAction.setPopup({"popup": ""});
-		}
+		lastPayload = payload;
+		lastFormat = format;
+		//open a new report page
+		chrome.tabs.create({"url": chrome.extension.getURL("pages/main.html")});
 	};
 
 	/*** Url check ***/
