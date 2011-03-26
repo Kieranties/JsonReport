@@ -5,7 +5,7 @@
 	/*** Display page action if allowed ***/
 	chrome.tabs.onUpdated.addListener(function(tabId, changeinfo, tab){
 		//validate url
-		var isValid = tab.url.match("^https?://.*[\.\?=&]?json.*");
+		var isValid = tab.url.match(/^https?:\/\/.*(?:\b=json\b)|(?:\b&json\b)|(?:\b\.json[\?\/]\b).*$/);
 		if(isValid){
 			chrome.pageAction.show(tabId);
 		}
