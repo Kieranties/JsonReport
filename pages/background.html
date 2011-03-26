@@ -2,6 +2,20 @@
 	var lastPayload = null;
 	var lastFormat = null;
 
+	/*** Display page action if allowed ***/
+	chrome.tabs.onUpdated.addListener(function(tabId, changeinfo, tab){
+		//validate url
+		var isValid = tab.url.match("^https?://.*[\.\?=&]?json.*");
+		if(isValid){
+			chrome.pageAction.show(tabId);
+		}
+	});
+
+	/*** Fire page action ***/
+	chrome.pageAction.onClicked.addListener(function(tab) {
+		createReport(tab.url, "url");
+	});
+
 	/*** Request listener ***/
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		switch(request.type) {

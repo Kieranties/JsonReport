@@ -8,25 +8,10 @@
 		"48" : "lib/images/icon48.png",
 		"128" : "lib/images/icon128.png"
 	},
-	"app": {
-		"launch": {
-			"local_path": "pages/report.html",
-			"container": "tab"
-		}
+	"page_action": {
+		"default_icon": "lib/images/icon48.png",
+		"default_title": "JsonReport"
 	},
-	"content_scripts": [
-		{
-			"matches": [ "http://*/*.json", "https://*/*.json",
-				"http://*/*.json?*", "https://*/*.json?*",
-				"http://*/*?json", "https://*/*?json",
-				"http://*/*?*=json", "https://*/*?*=json",
-				"http://*/*?json&*", "https://*/*?json&*",
-				"http://*/*?*=json&*", "https://*/*?*=json&*"],
-			"css": ["lib/css/cs.css"],
-			"js": ["lib/js/jquery-1.5.1.min.js", "lib/js/cs.js"],
-			"run_at": "document_end"
-		}
-	],
 	"background_page": "pages/background.html",
 	"permissions":[
 		"tabs",
