@@ -1,0 +1,79 @@
+﻿body {
+	font: 14px Verdana, Arial;
+	color: #444;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+}
+
+h1 {
+	margin: 0;
+	font: 24px Helvetica, Verdana, Arial;
+	padding: 20px 0 10px 0;
+	background: #FBFBFB;
+	border-bottom: solid 1px #fff;
+}
+
+a {
+	color: #093;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+#usage {
+	border-top: solid 1px #dfdfdf;
+	border-bottom: solid 1px #dfdfdf;
+	margin: 0 0 10px 0;
+	padding: 5px;
+	background: #f1f1f1;
+	line-height: 20px;
+	text-align: center;
+}
+
+textarea {
+	width: 990px;
+	height: 100px;
+}
+
+button {
+	margin: 20px;
+	padding: 4px 8px;
+}
+
+#use {
+	clear: both;
+	border: 1px solid #ccc;
+	margin: auto;
+	width: 960px;
+}
+
+#use H4 {
+	margin: 0;
+	padding: 5px;
+	background: #ccc;
+	color: #fff;
+	text-shadow: 1px 1px 1px #444;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+pre {
+	background: #f1f1f1;
+	padding: 4px 8px;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.jsonreport {
+	text-align: left;
+	position: absolute;
+	left: 50%;
+	background: #fff;
+	width: 1000px;
+	margin-left: -500px;
+	overflow: auto;
+}

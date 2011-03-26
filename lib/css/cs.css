@@ -1,0 +1,30 @@
+#jsonrChrome{
+	position: absolute !important;
+	top: 10px !important;
+	right: 10px !important;
+	background: #d3d3d3 !important;
+	border-radius: 4px !important;
+	box-shadow: 4px 4px 4px gray !important;
+	width:200px !important;
+	font: 12px Verdana, Arial !important;
+	cursor: pointer;
+}
+
+#jsonrChromeClose{
+	position: absolute !important;
+	text-decoration: none !important;
+	color: black !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	right: 2px !important;
+	top: 2px !important;
+}
+#jsonrChrome p{
+	background-repeat: no-repeat !important;
+	background-position: left !important;
+	padding-left:55px !important;
+	margin-left:10px !important;
+	line-height: 48px !important;
+	margin-top:0 !important;
+	margin-bottom:0 !important;
+}

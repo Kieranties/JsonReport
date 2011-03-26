@@ -1,33 +1,18 @@
 ﻿<script type="text/javascript">
 	var lastPayload = null;
 	var lastFormat = null;
-	var disabled = [];
-
 
 	/*** Request listener ***/
 	chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		switch(request.type) {
-			case "popupLink":
-				createTab(request.payload, "url");
+			case "initUrlReport":
+				createReport(request.payload, "url");
 				break;
-			case "reportInit":
-				sendResponse({"payload": lastPayload, "format": lastFormat});
+			case "lastPayload":
+				sendResponse({payload: lastPayload, format: lastFormat});
 				break;
 			default: //snub
 				sendResponse({});
-		}
-	});
-
-	/*** BrowserAction listener ***/
-	chrome.browserAction.onClicked.addListener(function(tab) {
-		var mode = localStorage.getItem("popupAction");
-		switch(mode) {
-			case "blank":
-				createTab();
-				break;
-			case "url":
-				createTab(tab.url, "url");
-				break;
 		}
 	});
 
@@ -37,23 +22,18 @@
 		contexts: ["link", "selection"],
 		onclick: function(info, tab) {
 			if(info.linkUrl) {
-				createTab(info.linkUrl, "url");
+				createReport(info.linkUrl, "url");
 			} else {
-				createTab(info.selectionText, "text");
+				createReport(info.selectionText, "text");
 			}
 		}
 	});
 
-	/*** Create a new tab ***/
-	createTab = function(payload, format) {
+	/*** Create a new report ***/
+	createReport = function(payload, format) {
 		lastPayload = payload;
 		lastFormat = format;
 		//open a new report page
-		chrome.tabs.create({"url": chrome.extension.getURL("pages/main.html")});
+		chrome.tabs.create({"url": chrome.extension.getURL("pages/report.html")});
 	};
-
-	/*** Url check ***/
-	isValidUrl = function(url) {
-		return !url.match("^chrome(-extension)?://");
-	}
 </script>
