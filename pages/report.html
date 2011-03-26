@@ -4,7 +4,7 @@
 		<title>JsonReport</title>
 		<link rel="stylesheet" type="text/css" href="/lib/css/smoothness/jquery-ui-1.8.11.custom.css"/>
 		<link rel="stylesheet" type="text/css" href="/lib/css/report.css"/>
-		<link rel="stylesheet" type="text/css" href="/lib/css/jsonreport.css"/>
+		<!--<link rel="stylesheet" type="text/css" href="/lib/css/jsonreport.css"/>-->
 		<script type="text/javascript" src="/lib/js/jsonreport.js"></script>
 		<script type="text/javascript" src="/lib/js/jquery-1.5.1.min.js"></script>
 		<script type="text/javascript" src="/lib/js/jquery-ui-1.8.11.custom.min.js"></script>
@@ -24,7 +24,7 @@
 			/*** Render JSON as a report ***/
 			report = function(content) {
 				$("#reportProgress").show();
-				$(".jsonreport").html(_.jsonreport(content));
+				$("#report").html(_.jsonreport(content));
 				$("#reportProgress").hide();
 			};
 
@@ -67,9 +67,7 @@
 				</li>
 			</ul>
 		</nav>
-		<section id="report">
-			<article class="jsonreport"></article>
-		</section>
+		<section id="report"></section>
 		<section id="edit">
 			<textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
 			<button onclick="report($('#textReq').val())">Static Report</button>

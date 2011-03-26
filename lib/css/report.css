@@ -22,3 +22,7 @@ nav ul li:last-child{
 	border:none;
 }
 
+#report{
+	overflow:auto;
+}
+
