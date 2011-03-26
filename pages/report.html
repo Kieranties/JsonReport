@@ -5,20 +5,23 @@
 		<link rel="stylesheet" type="text/css" href="/lib/css/report.css"/>
 		<link rel="stylesheet" type="text/css" href="/lib/css/jsonreport.css"/>
 		<script type="text/javascript" src="/lib/js/jsonreport.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery-1.5.1.min.js"></script>
 		<script type="text/javascript">
+
 			/*** XHR request to get json from url ***/
 			requestReport = function() {
 				var req = new XMLHttpRequest();
-				req.open("GET", document.getElementById("urlReq").value, false);
+				req.open("GET", $("#urlReq").val(), false);
 				req.send(null);
 				if(req.status == 200) {
+					$("#textReq").val(req.responseText);
 					report(req.responseText);
 				}
 			};
 
 			/*** Render JSON as a report ***/
 			report = function(content) {
-				document.getElementsByClassName("jsonreport")[0].innerHTML = _.jsonreport(content);
+				$(".jsonreport").html(_.jsonreport(content));
 			};
 
 			/*** Init the report ***/
@@ -26,12 +29,12 @@
 				switch(response.format) {
 					case "url":
 						if(response.payload !== undefined) {
-							document.getElementById("urlReq").value = response.payload;
+							$("#urlReq").val(response.payload);
 							requestReport();
 						}
 						break;
 					case "text":
-						document.getElementById("textReq").innerHTML = response.payload;
+						$("#textReq").val(response.payload);
 						report(response.payload);
 						break;
 				}
@@ -48,7 +51,7 @@
 		<input id="urlReq" type="text" style="width:50%" placeholder="Enter a url which returns json"/>
 
 		<div>
-			<button onclick="report(document.getElementById('textReq').value)">Static Report</button>
+			<button onclick="report($('#textReq').val())">Static Report</button>
 			<button onclick="requestReport()">Url Report</button>
 		</div>
 		<div class="jsonreport"></div>
