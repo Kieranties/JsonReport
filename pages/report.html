@@ -2,14 +2,16 @@
 <html lang="en">
 	<head>
 		<title>JsonReport</title>
+		<link rel="stylesheet" type="text/css" href="/lib/css/smoothness/jquery-ui-1.8.11.custom.css"/>
 		<link rel="stylesheet" type="text/css" href="/lib/css/report.css"/>
 		<link rel="stylesheet" type="text/css" href="/lib/css/jsonreport.css"/>
 		<script type="text/javascript" src="/lib/js/jsonreport.js"></script>
 		<script type="text/javascript" src="/lib/js/jquery-1.5.1.min.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery-ui-1.8.11.custom.min.js"></script>
 		<script type="text/javascript">
-
 			/*** XHR request to get json from url ***/
 			requestReport = function() {
+				$("#reportProgress").show();
 				var req = new XMLHttpRequest();
 				req.open("GET", $("#urlReq").val(), false);
 				req.send(null);
@@ -21,39 +23,56 @@
 
 			/*** Render JSON as a report ***/
 			report = function(content) {
+				$("#reportProgress").show();
 				$(".jsonreport").html(_.jsonreport(content));
+				$("#reportProgress").hide();
 			};
 
-			/*** Init the report ***/
-			chrome.extension.sendRequest({"type": "lastPayload"}, function(response) {
-				switch(response.format) {
-					case "url":
-						if(response.payload !== undefined) {
-							$("#urlReq").val(response.payload);
-							requestReport();
-						}
-						break;
-					case "text":
-						$("#textReq").val(response.payload);
-						report(response.payload);
-						break;
-				}
+			$(document).ready(function() {
+				/*** Setup the display **/
+				$("body").tabs();
+				$("#btnUrlReq").button({
+					icons: {primary: "ui-icon-refresh"}
+				}).click(requestReport);
+
+				/*** Init the report ***/
+				chrome.extension.sendRequest({"type": "lastPayload"}, function(response) {
+					switch(response.format) {
+						case "url":
+							if(response.payload !== undefined) {
+								$("#urlReq").val(response.payload);
+								requestReport();
+							}
+							break;
+						case "text":
+							$("#textReq").val(response.payload);
+							report(response.payload);
+							break;
+					}
+				});
 			});
 		</script>
 	</head>
 	<body>
-		<div id="usage">
-			<strong>Usage:</strong> Paste JSON text in the TEXTAREA below and click <b>View JSON Report</b> button.
-		</div>
-
-		<textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
-		<br/>
-		<input id="urlReq" type="text" style="width:50%" placeholder="Enter a url which returns json"/>
-
-		<div>
+		<nav>
+			<ul>
+				<li><a href="#report">Report</a></li>
+				<li><a href="#edit">Edit</a></li>
+				<li >
+					<button id="btnUrlReq">Refresh</button>
+					<input id="urlReq" type="input" placeholder="Url source"/>
+				</li>
+				<li>
+					<progress id="reportProgress"/>
+				</li>
+			</ul>
+		</nav>
+		<section id="report">
+			<article class="jsonreport"></article>
+		</section>
+		<section id="edit">
+			<textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
 			<button onclick="report($('#textReq').val())">Static Report</button>
-			<button onclick="requestReport()">Url Report</button>
-		</div>
-		<div class="jsonreport"></div>
+		</section>
 	</body>
 </html>
