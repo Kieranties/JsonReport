@@ -3,10 +3,9 @@
 #report dl {clear: left;}
 #report dd {margin: .5em 1em; float: left;}
 #report thead {text-align: left; font-size: 1.2em;}
-#report th {padding: .5em 1em; cursor: pointer; white-space: nowrap;}
+#report th {padding: .5em .8em; cursor: pointer; white-space: nowrap;}
 #report table dt {font-size: 1.2em;}
-#report td {vertical-align: top; padding: 1em 1em 0 1em;}
-#report tr:last-child td {padding-bottom: 1em;}
+#report td {vertical-align: top; padding: 0.8em;}
 /*
 #jsonreport th { text-align: left; padding: 4px 8px; text-shadow: #fff 1px 1px -1px; background: #f1f1f1; white-space:nowrap; cursor:pointer; font-weight: bold; }
 #jsonreport td { padding: 8px 8px 0 8px; vertical-align: top; }
