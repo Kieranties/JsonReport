@@ -7,7 +7,12 @@
 		<link rel="stylesheet" type="text/css" href="/lib/css/jsonreport.css"/>
 		<script type="text/javascript" src="/lib/js/jsonreport.js"></script>
 		<script type="text/javascript" src="/lib/js/jquery-1.5.1.min.js"></script>
-		<script type="text/javascript" src="/lib/js/jquery-ui-1.8.11.custom.min.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery.ui.core.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery.ui.widget.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery.ui.button.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery.ui.tabs.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery.ui.menu.js"></script>
+		<script type="text/javascript" src="/lib/js/jquery.ui.position.js"></script>
 		<script type="text/javascript">
 			/*** XHR request to get json from url ***/
 			requestReport = function() {
@@ -31,9 +36,55 @@
 			$(document).ready(function() {
 				/*** Setup the display **/
 				$("body").tabs();
-				$("#btnUrlReq").button({
+				$("#btnReq").button({
 					icons: {primary: "ui-icon-refresh"}
-				}).click(requestReport);
+				}).click(function(){
+					if($(this).button("option","label") == "Url"){
+						requestReport();
+					}else{
+						report($("#textReq").val());
+					}
+				}).parent().buttonset();
+
+				$("#btnReqChange").button({
+					text: false,
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					}
+				}).click(function() {
+					var menu = $("#changeMenu").show().position({
+						my: "left top",
+						at: "left bottom",
+						of: $("#btnReq")
+					});
+					$(document).one("click", function() {
+						menu.hide();
+					});
+					return false;
+				});
+				$("#changeMenu").menu().hide();
+
+				$("#menuUrlReq").click(function(){
+					 setButtonText(this.innerHTML);
+				});
+
+				$("#menuRawReq").click(function(){
+					setButtonText(this.innerHTML);
+				});
+
+				$("#urlReq").keyup(function(event) {
+					if(event.keyCode == 13) {
+						if(this.value != ""){
+							requestReport();
+							$("#menuUrlReq").click();
+						}
+					}
+				});
+
+				/*** Set button text ***/
+				setButtonText = function(val){
+					$("#btnReq").button("option", "label", val);
+				};
 
 				/*** Init the report ***/
 				chrome.extension.sendRequest({"type": "lastPayload"}, function(response) {
@@ -45,6 +96,7 @@
 							}
 							break;
 						case "text":
+							$("#menuRawReq").click();
 							$("#textReq").val(response.payload);
 							report(response.payload);
 							break;
@@ -59,7 +111,12 @@
 				<li><a href="#report">Report</a></li>
 				<li><a href="#edit">Edit</a></li>
 				<li>
-					<button id="btnUrlReq">Refresh</button>
+					<button id="btnReq">Url</button>
+					<button id="btnReqChange">Static Report</button>
+					<ul id="changeMenu">
+						<li id="menuUrlReq">Url</li>
+						<li id="menuRawReq">Raw</li>
+					</ul>
 					<input id="urlReq" type="input" placeholder="Url source"/>
 				</li>
 				<li>
@@ -69,8 +126,7 @@
 		</nav>
 		<section id="report"></section>
 		<section id="edit">
-			<textarea id="textReq" class="json" placeholder="Enter raw JSON here"></textarea>
-			<button onclick="report($('#textReq').val())">Static Report</button>
+			<textarea id="textReq" placeholder="Enter raw JSON here"></textarea>
 		</section>
 	</body>
 </html>
